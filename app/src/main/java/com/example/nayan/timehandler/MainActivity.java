@@ -4,10 +4,11 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
-    int count = 0, sec, min = 50, hour = 20, day;
-    private TextView txtSec, txtDay;
+    int count = 10, sec, min, hour, day;
+    private TextView txtSec, txtDay, txtCount;
     private String s, m, h;
     Handler handler;
 
@@ -17,6 +18,16 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         init();
         counter();
+//        handler.postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                for (int i=10;i>=0;i--){
+//                    txtCount.setText(i+"");
+//                }
+//            }
+//        },100);
+
+        change();
 
 
     }
@@ -59,16 +70,36 @@ public class MainActivity extends AppCompatActivity {
 
                 txtSec.setText(s + ":" + m + ":" + h);
                 txtDay.setText(day + "");
-
+//                if (min==10){
+//                    Toast.makeText(MainActivity.this,"holiday",Toast.LENGTH_LONG).show();
+//                }
                 counter();
 
             }
-        }, 10);
+        }, 1000);
     }
 
     private void init() {
         handler = new Handler();
         txtSec = (TextView) findViewById(R.id.txtSec);
         txtDay = (TextView) findViewById(R.id.txtDay);
+        txtCount = (TextView) findViewById(R.id.txtCount);
     }
+
+    public void change() {
+        count--;
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (count == -1) {
+                    count=10;
+
+                }
+                txtCount.setText(count + "");
+                change();
+            }
+        }, 100);
+
+    }
+
 }
